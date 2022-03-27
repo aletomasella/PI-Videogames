@@ -1,10 +1,12 @@
-import './App.css';
+import "./App.css";
+import Homepage from "./components/Homepage";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <h1>Henry Videogames</h1>
-    </div>
+      <Homepage />
+    </>
   );
 }
 
