@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 const { Router } = require("express");
 const { apiKey } = require("../db");
-const { Genre } = require("../db");
+const { Genre, videogame_genre } = require("../db");
 
 const router = Router();
 
