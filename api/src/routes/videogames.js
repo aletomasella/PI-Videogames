@@ -32,9 +32,18 @@ router.get("/", async (req, res, next) => {
     const gamesCreation = gamesData.map((game) => createGames(game));
     const gamesCreated = await Promise.all(gamesCreation);
 
-    for (let i = 0; i < gamesData.length; i++) {
-      await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
-    } // YA FUNCIONA!
+    //Forma con Promise all mas performante para associar.
+    const association = gamesCreated.map((game, i) => {
+      return (async function () {
+        await game.addGenre(await getIndex(gamesData[i]));
+      })();
+    });
+
+    await Promise.all(association);
+
+    // for (let i = 0; i < gamesData.length; i++) {
+    //   await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
+    // } // YA FUNCIONA!
 
     return res.json(gamesCreated);
   } catch (e) {
@@ -53,9 +62,17 @@ router.get("/", async (req, res) => {
 
     const gamesCreated = await Promise.all(gamesCreation);
 
-    for (let i = 0; i < gamesData.length; i++) {
-      await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
-    } // YA FUNCIONA!
+    // for (let i = 0; i < gamesData.length; i++) {
+    //   await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
+    // } // YA FUNCIONA!
+
+    const association = gamesCreated.map((game, i) => {
+      return (async function () {
+        await game.addGenre(await getIndex(gamesData[i]));
+      })();
+    });
+
+    await Promise.all(association);
 
     res.json(gamesCreated);
   } catch (e) {
