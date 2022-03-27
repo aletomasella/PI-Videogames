@@ -6,7 +6,7 @@ const videogameModel = require("./models/Videogame.js");
 const genreModel = require("./models/Genre.js");
 const { DB_USER, DB_PASSWORD, DB_HOST, API_KEY } = process.env;
 
-const apiKey = `?key=${API_KEY}`;
+const apiKey = `key=${API_KEY}`;
 
 const sequelize = new Sequelize(
   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/videogames`,

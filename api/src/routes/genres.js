@@ -7,7 +7,9 @@ const router = Router();
 
 router.get("/", async (req, res) => {
   try {
-    const response = await axios.get(`https://api.rawg.io/api/genres${apiKey}`);
+    const response = await axios.get(
+      `https://api.rawg.io/api/genres?page_size=100&${apiKey}`
+    );
     const genres = response.data.results;
     const genresNames = genres.map((genre) => genre.name);
     await genresNames.forEach((name) => {
