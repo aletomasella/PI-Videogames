@@ -6,6 +6,12 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Videogame",
     {
+      id: {
+        type: DataTypes.UUID, //ID de tipo alfanumerico random para que no se pise con el id numerico de la API.
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,6 +29,12 @@ module.exports = (sequelize) => {
       platforms: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      inDb: {
+        //Sirve para distinguir el personaje de la DB con el de API.
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true,
       },
     },
     {

@@ -1,4 +1,5 @@
 const { Genre, Videogame } = require("../db");
+const axios = require("axios");
 
 function filterGame(game) {
   const description = game.tags.map((tag) => tag.name);
@@ -6,6 +7,7 @@ function filterGame(game) {
   const genres = game.genres.map((genre) => genre.name);
 
   return {
+    id: game.id,
     name: game.name,
     description: description.slice(0, 5).join(" "),
     launchDate: game.released,
@@ -58,10 +60,31 @@ function errorHandler(error, res) {
   return res.status(400).send("Algo salio mal.");
 }
 
+async function getVideogamesInDb() {
+  return await Videogame.findAll({
+    include: {
+      model: Genre,
+      attributes: ["name"],
+      through: {
+        attributes: [], //Que me traiga el name del modelo Genre sobre la tabla atributos. Aca estoy ocupando la tabla intermedia de la relacion muchos a muchos.
+      },
+    },
+  });
+}
+
+async function getGamesInApi(url) {
+  const response = await axios.get(url);
+  const gamesResult = response.data.results;
+  const gameData = gamesResult.map((game) => filterGame(game));
+  return gameData;
+}
+
 module.exports = {
   filterGame,
   getIndex,
   createGames,
   findOrCreateGames,
   errorHandler,
+  getVideogamesInDb,
+  getGamesInApi,
 };

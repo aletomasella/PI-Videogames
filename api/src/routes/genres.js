@@ -13,13 +13,19 @@ router.get("/", async (req, res) => {
     const genres = response.data.results;
     const genresNames = genres.map((genre) => genre.name);
     await genresNames.forEach((name) => {
-      Genre.create({
-        name,
+      Genre.findOrCreate({
+        where: {
+          name,
+        },
       });
     });
-    res.json(genresNames);
+
+    const genresInDb = await Genre.findAll();
+
+    res.json(genresInDb);
   } catch (e) {
     console.log(e);
+    res.sendStatus(400);
   }
 });
 

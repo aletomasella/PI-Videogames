@@ -5,76 +5,46 @@ const { Videogame, Genre } = require("../db");
 const {
   filterGame,
   getIndex,
-  createGames,
-  findOrCreateGames,
   errorHandler,
+  getVideogamesInDb,
+  getGamesInApi,
 } = require("./util");
-
-//ME FALTARIA QUE FUNCIONE EL FIND OR CREATE NOMAS PARA NO ESTAR CARGANDO DATOS DE MAS PERO TODO LO DEMAS ESTA FUNCIONANDO Y BASTANTE MODULARIZADO.
 
 const router = Router();
 
-router.get("/", async (req, res, next) => {
-  try {
-    const { name } = req.query;
-    if (!name) return next();
-    const url = `https://api.rawg.io/api/games?page_size=15&${apiKey}&search=${name}`;
-    const response = await axios.get(url);
-    const games = response.data.results;
-    if (games.lenght)
-      return res
-        .status(404)
-        .send(
-          "No se encontraron videojuegos que coincidan con el nombre pasado."
-        );
-
-    const gamesData = games.map((game) => filterGame(game));
-    const gamesCreation = gamesData.map((game) => createGames(game));
-    const gamesCreated = await Promise.all(gamesCreation);
-
-    //Forma con Promise all mas performante para associar.
-    const association = gamesCreated.map((game, i) => {
-      return (async function () {
-        await game.addGenre(await getIndex(gamesData[i]));
-      })();
-    });
-
-    await Promise.all(association);
-
-    // for (let i = 0; i < gamesData.length; i++) {
-    //   await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
-    // } // YA FUNCIONA!
-
-    return res.json(gamesCreated);
-  } catch (e) {
-    errorHandler(e);
-  }
-});
-
 router.get("/", async (req, res) => {
   try {
-    const url = `https://api.rawg.io/api/games?page_size=100&${apiKey}`;
-    const response = await axios.get(url);
-    const games = response.data.results;
-    const gamesData = games.map((game) => filterGame(game));
+    const { name } = req.query;
+    if (!name) {
+      const url = `https://api.rawg.io/api/games?page_size=100&${apiKey}`;
 
-    const gamesCreation = gamesData.map((game) => createGames(game));
+      const videogamesInDb = await getVideogamesInDb();
 
-    const gamesCreated = await Promise.all(gamesCreation);
+      const gamesInApi = await getGamesInApi(url);
 
-    // for (let i = 0; i < gamesData.length; i++) {
-    //   await gamesCreated[i].addGenre(await getIndex(gamesData[i]));
-    // } // YA FUNCIONA!
+      const allGames = gamesInApi.concat(videogamesInDb);
 
-    const association = gamesCreated.map((game, i) => {
-      return (async function () {
-        await game.addGenre(await getIndex(gamesData[i]));
-      })();
-    });
+      res.json(allGames);
+    } else {
+      const url = `https://api.rawg.io/api/games?page_size=15&${apiKey}&search=${name}`;
+      const response = await axios.get(url);
+      const games = response.data.results;
+      if (games.lenght)
+        return res
+          .status(404)
+          .send(
+            "No se encontraron videojuegos que coincidan con el nombre pasado."
+          );
 
-    await Promise.all(association);
+      const gamesData = games.map((game) => filterGame(game));
 
-    res.json(gamesCreated);
+      const videogamesInDb = await getVideogamesInDb();
+      const filterGamesInDb = videogamesInDb.filter((el) =>
+        el.name.toLowerCase().includes(name.toLowerCase())
+      );
+
+      return res.json(gamesData.concat(filterGamesInDb));
+    }
   } catch (e) {
     errorHandler(e, res);
   }
@@ -83,26 +53,30 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const url = `https://api.rawg.io/api/games/${id}?${apiKey}`;
-    const response = await axios.get(url);
-    const game = response.data;
-    if (game) {
-      const gameData = filterGame(game);
-      const newGame = await createGames(gameData);
+    if (!id.includes("-")) {
+      const url = `https://api.rawg.io/api/games/${id}?${apiKey}`;
+      const response = await axios.get(url);
+      const game = response.data;
+      if (game) {
+        const gameData = filterGame(game);
 
-      await newGame.addGenre(await getIndex(gameData));
+        return res.json(gameData);
+      }
+    } else {
+      const gameInDb = await Videogame.findByPk(id);
 
-      return res.json(newGame);
+      if (gameInDb) return res.json(gameInDb);
     }
     return res.status(404).send("Juego no encontrado");
   } catch (e) {
-    errorHandler(e);
+    res.status(404).send("El juego no ha sido encontrado.");
   }
 });
 
 router.post("/", async (req, res) => {
   try {
-    const { name, description, launchDate, rating, platforms } = req.body;
+    const { name, description, launchDate, rating, platforms, genres } =
+      req.body;
     if (!name || !description || !platforms)
       return res.status(404).send("No se brindaron los datos necesarios.");
     const newVideogame = Videogame.build({
@@ -113,9 +87,28 @@ router.post("/", async (req, res) => {
     if (launchDate) newVideogame.launchDate = launchDate;
     if (rating) newVideogame.rating = rating;
     await newVideogame.save();
-    res.json(newVideogame);
+
+    const gameGenres = {
+      genres,
+    }; //Esto lo hago para poder utilizar mi funcion de getIndex que espera recibir un objecto con una propiedad genres que sea un arreglo.
+
+    await newVideogame.addGenre(await getIndex(gameGenres));
+
+    const newVideogameInDb = await Videogame.findAll({
+      where: {
+        id: newVideogame.id,
+      },
+      include: {
+        model: Genre,
+        attributes: ["name"],
+        through: {
+          attributes: [],
+        },
+      },
+    });
+    res.json(newVideogameInDb);
   } catch (e) {
-    errorHandler(e);
+    errorHandler(e, res);
   }
 });
 
