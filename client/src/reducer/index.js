@@ -3,6 +3,7 @@ import {
   FILTER_BY_GENRE,
   GET_VIDEOGAMES,
   GET_VIDEOGAMES_BY_NAME,
+  ORDER_BY_NAME,
 } from "../action";
 
 const inicialState = {
@@ -57,6 +58,24 @@ function rootReducer(state = inicialState, action) {
           videogames: filteredGames,
         };
       }
+    case ORDER_BY_NAME:
+      const sortedVideogames =
+        action.payload === "asc"
+          ? state.videogames.sort((a, b) => {
+              if (a.name > b.name) return 1;
+              if (b.name > a.name) return -1;
+              return 0;
+            })
+          : state.videogames.sort((a, b) => {
+              if (a.name > b.name) return -1;
+              if (b.name > a.name) return 1;
+              return 0;
+            });
+
+      return {
+        ...state,
+        videogames: sortedVideogames,
+      };
 
     default:
       return { ...state };

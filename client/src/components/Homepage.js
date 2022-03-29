@@ -5,6 +5,7 @@ import {
   filterGamesByGenre,
   getAllVideogames,
   getVideogamesByName,
+  orderByName,
 } from "../action";
 import Card from "./Card";
 import Pages from "./Pages";
@@ -14,6 +15,7 @@ function Homepage() {
   const [input, setInput] = useState("");
   const [page, setPage] = useState(1);
   const [gamesXpage] = useState(15);
+  const [sort, setSort] = useState("");
   const indexOfLastGame = page * gamesXpage;
   const indexOfFirstGame = indexOfLastGame - gamesXpage;
 
@@ -47,6 +49,13 @@ function Homepage() {
   const handleFilterCreation = (e) =>
     dispatch(filterGamesByCreation(e.target.value));
 
+  const handleSort = (e) => {
+    e.preventDefault();
+    dispatch(orderByName(e.target.value));
+    setPage(1);
+    setSort(e.target.value);
+  };
+
   return (
     <>
       <h2>Homepage</h2>
@@ -61,7 +70,7 @@ function Homepage() {
       />
       <input type="submit" onClick={handleSubmit} value="Search" />
       <div>
-        <select>
+        <select onChange={handleSort}>
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
