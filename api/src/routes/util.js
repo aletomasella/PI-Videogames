@@ -14,6 +14,7 @@ function filterGame(game) {
     rating: game.rating,
     platforms: platforms.join(" "),
     genres,
+    img: game.background_image,
   };
 }
 
