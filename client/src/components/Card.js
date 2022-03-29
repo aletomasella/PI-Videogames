@@ -3,9 +3,6 @@ import React from "react";
 function Card({ img, name, genres }) {
   const WIDTH = "400px";
   const HEIGHT = "250px";
-  if (genres && typeof genres[0] === "object") {
-    genres = genres.map((genre) => genre.name);
-  }
   return (
     <>
       <h3>Nombre : {name}</h3>

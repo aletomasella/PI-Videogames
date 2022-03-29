@@ -4,12 +4,15 @@ import {
   filterGamesByCreation,
   filterGamesByGenre,
   getAllVideogames,
+  getVideogameById,
   getVideogamesByName,
   orderByName,
+  orderByRating,
 } from "../action";
 import Card from "./Card";
 import Pages from "./Pages";
 import { Link } from "react-router-dom";
+import { botones } from "./Homepage.module.css";
 
 function Homepage() {
   const [input, setInput] = useState("");
@@ -49,17 +52,26 @@ function Homepage() {
   const handleFilterCreation = (e) =>
     dispatch(filterGamesByCreation(e.target.value));
 
-  const handleSort = (e) => {
+  const handleSortByName = (e) => {
     e.preventDefault();
     dispatch(orderByName(e.target.value));
     setPage(1);
-    setSort(e.target.value);
+    setSort(`Ordenando por Nombre en Sentido ${e.target.value}`);
+  };
+
+  const handleSortByRating = (e) => {
+    e.preventDefault();
+    dispatch(orderByRating(e.target.value));
+    setPage(1);
+    setSort(`Ordenando por Rating en Sentido ${e.target.value}`);
   };
 
   return (
     <>
       <h2>Homepage</h2>
-      <button onClick={handleClick}>Volver a cargar los videojuegos</button>
+      <button className={botones} onClick={handleClick}>
+        Volver a cargar los videojuegos
+      </button>
       <br />
       <input
         type="text"
@@ -70,9 +82,13 @@ function Homepage() {
       />
       <input type="submit" onClick={handleSubmit} value="Search" />
       <div>
-        <select onChange={handleSort}>
-          <option value="asc">Ascendente</option>
-          <option value="desc">Descendente</option>
+        <select onChange={handleSortByName}>
+          <option value="asc">Orden Ascendente Por Nombre</option>
+          <option value="desc">Orden Descendente Por Nombre</option>
+        </select>
+        <select onChange={handleSortByRating}>
+          <option value="asc">Orden Ascendente Por Rating</option>
+          <option value="desc">Orden Descendente Por Rating</option>
         </select>
         <select onChange={handleFilterGenre}>
           <option value="All">Todos</option>
@@ -116,7 +132,7 @@ function Homepage() {
                   key={game.id}
                   name={game.name}
                   img={game.img}
-                  genres={game.genres || game.Genres}
+                  genres={game.genres}
                 />
               </Link>
             </div>

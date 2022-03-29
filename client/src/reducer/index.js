@@ -4,11 +4,14 @@ import {
   GET_VIDEOGAMES,
   GET_VIDEOGAMES_BY_NAME,
   ORDER_BY_NAME,
+  ORDER_BY_RATING,
+  VIDEOGAME_BY_ID,
 } from "../action";
 
 const inicialState = {
   videogames: [],
   allVideogames: [],
+  videogame: {},
 };
 
 function rootReducer(state = inicialState, action) {
@@ -59,7 +62,7 @@ function rootReducer(state = inicialState, action) {
         };
       }
     case ORDER_BY_NAME:
-      const sortedVideogames =
+      const sortedVideogamesByName =
         action.payload === "asc"
           ? state.videogames.sort((a, b) => {
               if (a.name > b.name) return 1;
@@ -74,7 +77,30 @@ function rootReducer(state = inicialState, action) {
 
       return {
         ...state,
-        videogames: sortedVideogames,
+        videogames: sortedVideogamesByName,
+      };
+    case ORDER_BY_RATING:
+      const sortedVideogamesByRating =
+        action.payload === "asc"
+          ? state.videogames.sort((a, b) => {
+              if (a.rating > b.rating) return 1;
+              if (b.rating > a.rating) return -1;
+              return 0;
+            })
+          : state.videogames.sort((a, b) => {
+              if (a.rating > b.rating) return -1;
+              if (b.rating > a.rating) return 1;
+              return 0;
+            });
+
+      return {
+        ...state,
+        videogames: sortedVideogamesByRating,
+      };
+    case VIDEOGAME_BY_ID:
+      return {
+        ...state,
+        videogame: action.payload,
       };
 
     default:
