@@ -18,6 +18,11 @@ router.get("/", async (req, res) => {
     if (!name) {
       const videogamesInDb = await getVideogamesInDb();
 
+      videogamesInDb.forEach(
+        (game) =>
+          (game.dataValues.genres = game.dataValues.Genres.map((el) => el.name))
+      );
+
       const gamesInApi = await getGamesInApi();
 
       const allGames = gamesInApi.concat(videogamesInDb);
@@ -37,6 +42,11 @@ router.get("/", async (req, res) => {
       const gamesData = games.map((game) => filterGame(game));
 
       const videogamesInDb = await getVideogamesInDb();
+      videogamesInDb.forEach(
+        (game) =>
+          (game.dataValues.genres = game.dataValues.Genres.map((el) => el.name))
+      );
+
       const filterGamesInDb = videogamesInDb.filter((el) =>
         el.name.toLowerCase().includes(name.toLowerCase())
       );
@@ -61,7 +71,18 @@ router.get("/:id", async (req, res) => {
         return res.json(gameData);
       }
     } else {
-      const gameInDb = await Videogame.findByPk(id);
+      const gameInDb = await Videogame.findByPk(id, {
+        include: {
+          model: Genre,
+          attributes: ["name"],
+          through: {
+            attributes: [],
+          },
+        },
+      });
+      gameInDb.dataValues.genres = gameInDb.dataValues.Genres.map(
+        (el) => el.name
+      );
 
       if (gameInDb) return res.json(gameInDb);
     }
