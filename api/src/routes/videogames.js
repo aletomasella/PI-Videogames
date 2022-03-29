@@ -67,6 +67,7 @@ router.get("/:id", async (req, res) => {
       const game = response.data;
       if (game) {
         const gameData = filterGame(game);
+        gameData.description = game.description_raw;
 
         return res.json(gameData);
       }
