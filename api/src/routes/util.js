@@ -1,5 +1,6 @@
 const { Genre, Videogame } = require("../db");
 const axios = require("axios");
+const { apiKey } = require("../db");
 
 function filterGame(game) {
   const description = game.tags.map((tag) => tag.name);
@@ -73,10 +74,18 @@ async function getVideogamesInDb() {
   });
 }
 
-async function getGamesInApi(url) {
-  const response = await axios.get(url);
-  const gamesResult = response.data.results;
-  const gameData = gamesResult.map((game) => filterGame(game));
+async function getGamesInApi() {
+  const promises = [];
+  for (let i = 1; i <= 5; i++) {
+    promises.push(
+      axios.get(`https://api.rawg.io/api/games?page=${i}&${apiKey}`)
+    );
+  }
+  const response = await Promise.all(promises);
+  const gamesResult = response.map((json) => json.data.results);
+  const concatGames = gamesResult.flat();
+  const gameData = concatGames.map((game) => filterGame(game));
+
   return gameData;
 }
 

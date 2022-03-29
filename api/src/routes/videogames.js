@@ -16,11 +16,9 @@ router.get("/", async (req, res) => {
   try {
     const { name } = req.query;
     if (!name) {
-      const url = `https://api.rawg.io/api/games?page_size=99&${apiKey}`;
-
       const videogamesInDb = await getVideogamesInDb();
 
-      const gamesInApi = await getGamesInApi(url);
+      const gamesInApi = await getGamesInApi();
 
       const allGames = gamesInApi.concat(videogamesInDb);
 
