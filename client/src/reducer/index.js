@@ -1,4 +1,4 @@
-import { GET_VIDEOGAMES } from "../action";
+import { GET_VIDEOGAMES, GET_VIDEOGAMES_BY_NAME } from "../action";
 
 const inicialState = {
   videogames: [],
@@ -7,6 +7,11 @@ const inicialState = {
 function rootReducer(store = inicialState, action) {
   switch (action.type) {
     case GET_VIDEOGAMES:
+      return {
+        ...store,
+        videogames: action.payload,
+      };
+    case GET_VIDEOGAMES_BY_NAME:
       return {
         ...store,
         videogames: action.payload,

@@ -5,7 +5,7 @@ function LandingPage() {
   const handleClick = (e) => alert("Redirigiendote a la HomePage!😊");
   return (
     <div>
-      <h1>WELCOME</h1>
+      <h1>WELCOME TO MI PAGE</h1>
       <Link to="/home">
         <button onClick={handleClick}>HOME</button>
       </Link>
