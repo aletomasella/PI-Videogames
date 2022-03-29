@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllVideogames, getVideogamesByName } from "../action";
+import {
+  filterGamesByCreation,
+  filterGamesByGenre,
+  getAllVideogames,
+  getVideogamesByName,
+} from "../action";
 import Card from "./Card";
-// import { Link } from "react-router-dom";
+import Pages from "./Pages";
+import { Link } from "react-router-dom";
 
 function Homepage() {
   const [input, setInput] = useState("");
+  const [page, setPage] = useState(1);
+  const [gamesXpage] = useState(15);
+  const indexOfLastGame = page * gamesXpage;
+  const indexOfFirstGame = indexOfLastGame - gamesXpage;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,6 +28,7 @@ function Homepage() {
   };
 
   const videogames = useSelector((state) => state.videogames);
+  const currentGames = videogames.slice(indexOfFirstGame, indexOfLastGame);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -28,6 +40,12 @@ function Homepage() {
     e.preventDefault();
     if (input) return dispatch(getVideogamesByName(input));
   };
+
+  const handlePages = (num) => setPage(num);
+
+  const handleFilterGenre = (e) => dispatch(filterGamesByGenre(e.target.value));
+  const handleFilterCreation = (e) =>
+    dispatch(filterGamesByCreation(e.target.value));
 
   return (
     <>
@@ -47,7 +65,7 @@ function Homepage() {
           <option value="asc">Ascendente</option>
           <option value="desc">Descendente</option>
         </select>
-        <select>
+        <select onChange={handleFilterGenre}>
           <option value="All">Todos</option>
           <option value="Action">Action</option>
           <option value="Indie">Indie</option>
@@ -61,7 +79,7 @@ function Homepage() {
           <option value="Puzzle">Puzzle</option>
           <option value="Arcade">Arcade</option>
           <option value="Racing">Racing</option>
-          <option value="Massively Multyplayer">Massively Multyplayer</option>
+          <option value="Massively Multiplayer">Massively Multyplayer</option>
           <option value="Sports">Sports</option>
           <option value="Fighting">Fighting</option>
           <option value="Family">Family</option>
@@ -69,16 +87,30 @@ function Homepage() {
           <option value="Educational">Educational</option>
           <option value="Card">Card</option>
         </select>
+        <select onChange={handleFilterCreation}>
+          <option value="All">Todos</option>
+          <option value="Api">Existente</option>
+          <option value="Db">Creado</option>
+        </select>
       </div>
-      {videogames &&
-        videogames.map((game) => {
+      <Pages
+        videogames={videogames.length}
+        gamesXpage={gamesXpage}
+        handlePage={handlePages}
+      />
+      {currentGames &&
+        currentGames.map((game) => {
           return (
-            <Card
-              key={game.id}
-              name={game.name}
-              img={game.img}
-              genres={game.genres}
-            />
+            <div>
+              <Link to={`/home/${game.id}`}>
+                <Card
+                  key={game.id}
+                  name={game.name}
+                  img={game.img}
+                  genres={game.genres || game.Genres}
+                />
+              </Link>
+            </div>
           );
         })}
     </>

@@ -10,7 +10,15 @@ function Card({ img, name, genres }) {
     <>
       <h3>Nombre : {name}</h3>
       <h4>Generos : {genres && genres.join(" ")}</h4>
-      <img src={img} alt="Img not found" width={WIDTH} height={HEIGHT} />
+      <img
+        src={
+          img ||
+          "https://blogdigital.es/wp-content/uploads/2015/09/imagen-no-encontrada.jpg"
+        }
+        alt="IMG NOT FOUND"
+        width={WIDTH}
+        height={HEIGHT}
+      />
     </>
   );
 }
