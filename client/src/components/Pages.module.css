@@ -1,0 +1,25 @@
+.botones {
+  background-color: #1a1a1a;
+  border: none;
+  color: white;
+  padding: 15px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  border-radius: 12px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  margin-left: 5px;
+}
+
+.botones:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.conteinerBotones {
+  display: inline-block;
+  text-decoration: none;
+}

@@ -1,0 +1,34 @@
+.titulo {
+  font-size: 50px;
+  display: block;
+  margin: 0px auto;
+  width: 500px;
+  margin-top: 100px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.botonHome {
+  background-color: #1a1a1a;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 12px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+.botonHome:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+/* 
+.conteiner {
+  width: 100%;
+  height: 2000px;
+  margin: 0px 0px;
+} */

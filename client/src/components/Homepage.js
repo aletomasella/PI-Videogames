@@ -11,7 +11,15 @@ import {
 import Card from "./Card";
 import Pages from "./Pages";
 import { Link } from "react-router-dom";
-import { botones } from "./Homepage.module.css";
+import {
+  botones,
+  conteiner,
+  games,
+  searchInput,
+  selectMenus,
+  titulo,
+  linkForm,
+} from "./Homepage.module.css";
 
 function Homepage() {
   const [input, setInput] = useState("");
@@ -66,30 +74,41 @@ function Homepage() {
   };
 
   return (
-    <>
-      <h2>Homepage</h2>
+    <div className={conteiner}>
+      <h2 className={titulo}>HOMEPAGE</h2>
+      <div>
+        <Link to="/home/form" className={linkForm}>
+          Formulario De Creacion
+        </Link>
+      </div>
       <button className={botones} onClick={handleClick}>
         Volver a cargar los videojuegos
       </button>
       <br />
       <input
         type="text"
-        placeholder="Search for Videogames"
+        placeholder="Search"
         value={input}
         onChange={handleChange}
         name="search"
+        className={searchInput}
       />
-      <input type="submit" onClick={handleSubmit} value="Search" />
+      <input
+        type="submit"
+        onClick={handleSubmit}
+        value="Search"
+        className={botones}
+      />
       <div>
-        <select onChange={handleSortByName}>
+        <select onChange={handleSortByName} className={selectMenus}>
           <option value="asc">Orden Ascendente Por Nombre</option>
           <option value="desc">Orden Descendente Por Nombre</option>
         </select>
-        <select onChange={handleSortByRating}>
+        <select onChange={handleSortByRating} className={selectMenus}>
           <option value="asc">Orden Ascendente Por Rating</option>
           <option value="desc">Orden Descendente Por Rating</option>
         </select>
-        <select onChange={handleFilterGenre}>
+        <select onChange={handleFilterGenre} className={selectMenus}>
           <option value="All">Todos</option>
           <option value="Action">Action</option>
           <option value="Indie">Indie</option>
@@ -111,14 +130,11 @@ function Homepage() {
           <option value="Educational">Educational</option>
           <option value="Card">Card</option>
         </select>
-        <select onChange={handleFilterCreation}>
+        <select onChange={handleFilterCreation} className={selectMenus}>
           <option value="All">Todos</option>
           <option value="Api">Existente</option>
           <option value="Db">Creado</option>
         </select>
-      </div>
-      <div>
-        <Link to="/home/form">Formulario De Creacion</Link>
       </div>
       <Pages
         videogames={videogames.length}
@@ -128,7 +144,7 @@ function Homepage() {
       {currentGames &&
         currentGames.map((game) => {
           return (
-            <div>
+            <div className={games}>
               <Link to={`/home/${game.id}`}>
                 <Card
                   key={game.id}
@@ -140,7 +156,7 @@ function Homepage() {
             </div>
           );
         })}
-    </>
+    </div>
   );
 }
 

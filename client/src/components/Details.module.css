@@ -1,0 +1,15 @@
+.conteiner {
+  background-color: rgb(0, 0, 46);
+  height: auto;
+  width: auto;
+  min-height: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.description {
+  font-size: large;
+  text-align: center;
+  margin: 10px 40px;
+}

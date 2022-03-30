@@ -1,4 +1,5 @@
 import React from "react";
+import { botones, conteinerBotones } from "./Pages.module.css";
 
 function Pages({ gamesXpage, videogames, handlePage }) {
   const pageNumbers = [];
@@ -14,8 +15,13 @@ function Pages({ gamesXpage, videogames, handlePage }) {
           {pageNumbers.length &&
             pageNumbers.map((number) => {
               return (
-                <li key={number}>
-                  <button onClick={(e) => handlePage(number)}>{number}</button>
+                <li key={number} className={conteinerBotones}>
+                  <button
+                    className={botones}
+                    onClick={(e) => handlePage(number)}
+                  >
+                    {number}
+                  </button>
                 </li>
               );
             })}
