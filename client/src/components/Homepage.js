@@ -118,6 +118,9 @@ function Homepage() {
           <option value="Db">Creado</option>
         </select>
       </div>
+      <div>
+        <Link to="/home/form">Formulario De Creacion</Link>
+      </div>
       <Pages
         videogames={videogames.length}
         gamesXpage={gamesXpage}

@@ -1,6 +1,8 @@
 import {
+  CREATE_VIDEOGAME,
   FILTER_BY_CREATION,
   FILTER_BY_GENRE,
+  GET_GENRES,
   GET_VIDEOGAMES,
   GET_VIDEOGAMES_BY_NAME,
   ORDER_BY_NAME,
@@ -12,6 +14,7 @@ const inicialState = {
   videogames: [],
   allVideogames: [],
   videogame: {},
+  genres: [],
 };
 
 function rootReducer(state = inicialState, action) {
@@ -101,6 +104,18 @@ function rootReducer(state = inicialState, action) {
       return {
         ...state,
         videogame: action.payload,
+      };
+
+    case GET_GENRES:
+      return {
+        ...state,
+        genres: action.payload,
+      };
+    case CREATE_VIDEOGAME:
+      return {
+        ...state,
+        allVideogames: [...state.allVideogames, action.payload],
+        videogames: [...state.videogames, action.payload],
       };
 
     default:

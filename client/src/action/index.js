@@ -7,6 +7,8 @@ export const FILTER_BY_CREATION = "FILTER_BY_CREATION";
 export const ORDER_BY_NAME = "ORDER_BY_NAME";
 export const ORDER_BY_RATING = "ORDER_BY_RATING";
 export const VIDEOGAME_BY_ID = "VIDEOGAME_BY_ID";
+export const CREATE_VIDEOGAME = "CREATE_VIDEOGAME";
+export const GET_GENRES = "GET_GENRES";
 
 export function getAllVideogames() {
   return async function (dispatch) {
@@ -68,5 +70,38 @@ export function getVideogameById(id) {
       type: VIDEOGAME_BY_ID,
       payload: response.data,
     });
+  };
+}
+
+export function createVideogame(game) {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/videogames`,
+        game
+      );
+      console.log(response.data);
+      return dispatch({
+        type: CREATE_VIDEOGAME,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function getAllGenres() {
+  return async function (dispatch) {
+    try {
+      const response = await axios.get(`http://localhost:3001/genres`);
+      console.log(response.data);
+      return dispatch({
+        type: GET_GENRES,
+        payload: response.data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 }

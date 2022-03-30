@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getVideogameById } from "../action";
 
 function Details() {
@@ -14,6 +14,7 @@ function Details() {
 
   return (
     <>
+      <Link to="/home">Volver al Home</Link>
       <h1>{videogame.name}</h1>
       <h2>Generos : {videogame.genres}</h2>
       <h3>Fecha de lanzamiento : {videogame.launchDate}</h3>
