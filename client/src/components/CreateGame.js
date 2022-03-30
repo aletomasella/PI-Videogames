@@ -3,6 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createVideogame, getAllGenres } from "../action";
 
+function validate(input) {
+  const errors = {};
+  if (!input.name) {
+    errors.name = "El nombre es obligatorio.";
+  } else if (!input.description) {
+    errors.description = "La descripcion es obligatoria.";
+  } else if (input.rating > 5 || input.rating < 1) {
+    errors.rating = "La puntuacion ingresada no es valida";
+  } else if (!input.platforms) {
+    errors.platforms = "El juego debe pertencer a una plataforma como minimo.";
+  } else if (!input.genres.length) {
+    errors.genres = "Se requiere al menos un genero.";
+  }
+  return errors;
+}
+
 function CreateGame() {
   const [input, setInput] = useState({
     name: "",
@@ -12,6 +28,7 @@ function CreateGame() {
     genres: [],
     platforms: "",
   });
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,10 +42,28 @@ function CreateGame() {
       ...input,
       [e.target.name]: e.target.value,
     });
+    setErrors(
+      validate({
+        ...input,
+        [e.target.name]: e.target.value,
+      })
+    );
   };
   //Se puede usar el useHistory() y history.push("/home") para redirigir al usuario al home.
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      errors.name ||
+      errors.description ||
+      errors.rating ||
+      errors.genres ||
+      errors.platforms
+    ) {
+      alert(
+        "El formulario no fue enviado porque los datos ingresados estan incompletos o son erroneos."
+      );
+      return;
+    }
     alert("Formulario Enviado Exitosamente");
     console.log(input);
     dispatch(createVideogame(input));
@@ -47,6 +82,12 @@ function CreateGame() {
       ...input,
       platforms: input.platforms + " " + e.target.value,
     });
+    setErrors(
+      validate({
+        ...input,
+        platforms: input.platforms + " " + e.target.value,
+      })
+    );
   };
 
   const handleGenres = (e) => {
@@ -54,6 +95,12 @@ function CreateGame() {
       ...input,
       genres: [...input.genres, e.target.value],
     });
+    setErrors(
+      validate({
+        ...input,
+        genres: [...input.genres, e.target.value],
+      })
+    );
   };
   return (
     <>
@@ -68,6 +115,7 @@ function CreateGame() {
             value={input.name}
             onChange={handleChange}
           />
+          {errors.name && <label>{errors.name}</label>}
         </div>
         <div>
           <label htmlFor="description">Descripcion</label>
@@ -77,6 +125,7 @@ function CreateGame() {
             value={input.description}
             onChange={handleChange}
           />
+          {errors.description && <label>{errors.description}</label>}
         </div>
         <div>
           <label htmlFor="launchDate">Fecha de Lanzamiento</label>
@@ -95,6 +144,7 @@ function CreateGame() {
             value={input.rating}
             onChange={handleChange}
           />
+          {errors.rating && <label>{errors.rating}</label>}
         </div>
         <div>
           <label>Plataformas: </label>
@@ -205,6 +255,7 @@ function CreateGame() {
             />
             Xbox 360
           </label>
+          {errors.platforms && <p>{errors.platforms}</p>}
         </div>
         <select name="Generos" onChange={handleGenres}>
           {genres &&
@@ -219,6 +270,7 @@ function CreateGame() {
         {input.genres.length ? (
           <p>Generos seleccionados: {input.genres.join(" ")}</p>
         ) : null}
+        {errors.genres && <p>{errors.genres}</p>}
         <br />
         <input type="submit" />
       </form>

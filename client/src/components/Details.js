@@ -11,6 +11,7 @@ function Details() {
     dispatch(getVideogameById(id));
   }, []);
   // const generosUnidos = videogames.genres.join(" ");
+  //props.match.params.id otra forma de sacar el id.
 
   return (
     <>
