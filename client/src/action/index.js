@@ -1,4 +1,5 @@
 import axios from "axios";
+import api from "../apiRoutes";
 
 export const GET_VIDEOGAMES = "GET_VIDEOGAMES";
 export const GET_VIDEOGAMES_BY_NAME = "GET_VIDEOGAMES_BY_NAME";
@@ -12,7 +13,7 @@ export const GET_GENRES = "GET_GENRES";
 
 export function getAllVideogames() {
   return async function (dispatch) {
-    const response = await axios.get("http://localhost:3001/videogames");
+    const response = await axios.get(api.getAllVideogames);
     console.log(response.data);
     return dispatch({
       type: GET_VIDEOGAMES,
@@ -23,9 +24,7 @@ export function getAllVideogames() {
 
 export function getVideogamesByName(name) {
   return async function (dispatch) {
-    const response = await axios.get(
-      `http://localhost:3001/videogames?name=${name}`
-    );
+    const response = await axios.get(`${api.getAllVideogamesByName}${name}`);
     console.log(response.data);
     return dispatch({
       type: GET_VIDEOGAMES_BY_NAME,
@@ -64,7 +63,7 @@ export function orderByRating(payload) {
 
 export function getVideogameById(id) {
   return async function (dispatch) {
-    const response = await axios.get(`http://localhost:3001/videogames/${id}`);
+    const response = await axios.get(`${api.getVideogamesById}${id}`);
     console.log(response.data);
     return dispatch({
       type: VIDEOGAME_BY_ID,
@@ -76,10 +75,7 @@ export function getVideogameById(id) {
 export function createVideogame(game) {
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        `http://localhost:3001/videogames`,
-        game
-      );
+      const response = await axios.post(`${api.createVideogame}`, game);
       console.log(response.data);
       return dispatch({
         type: CREATE_VIDEOGAME,
@@ -94,7 +90,7 @@ export function createVideogame(game) {
 export function getAllGenres() {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`http://localhost:3001/genres`);
+      const response = await axios.get(`${api.getAllGenres}`);
       console.log(response.data);
       return dispatch({
         type: GET_GENRES,
