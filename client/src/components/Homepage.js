@@ -19,6 +19,7 @@ import {
   selectMenus,
   titulo,
   linkForm,
+  conteinerButtons,
 } from "./Homepage.module.css";
 
 function Homepage() {
@@ -75,87 +76,98 @@ function Homepage() {
 
   return (
     <div className={conteiner}>
-      <h2 className={titulo}>HOMEPAGE</h2>
-      <div>
-        <Link to="/home/form" className={linkForm}>
-          Formulario De Creacion
-        </Link>
+      <div className={conteinerButtons}>
+        <h2 className={titulo}>HOMEPAGE</h2>
+        <div>
+          <Link to="/home/form" className={linkForm}>
+            Formulario De Creacion
+          </Link>
+        </div>
+        <button className={botones} onClick={handleClick}>
+          Volver a cargar los videojuegos
+        </button>
+        <br />
+        <input
+          type="text"
+          placeholder="Search"
+          value={input}
+          onChange={handleChange}
+          name="search"
+          className={searchInput}
+        />
+        <input
+          type="submit"
+          onClick={handleSubmit}
+          value="Search"
+          className={botones}
+        />
+        <div>
+          <select onChange={handleSortByName} className={selectMenus}>
+            <option value="asc">Orden Ascendente Por Nombre</option>
+            <option value="desc">Orden Descendente Por Nombre</option>
+          </select>
+          <select onChange={handleSortByRating} className={selectMenus}>
+            <option value="asc">Orden Ascendente Por Rating</option>
+            <option value="desc">Orden Descendente Por Rating</option>
+          </select>
+          <select onChange={handleFilterGenre} className={selectMenus}>
+            <option value="All">Todos</option>
+            <option value="Action">Action</option>
+            <option value="Indie">Indie</option>
+            <option value="Adventure">Adventure</option>
+            <option value="RPG">RPG</option>
+            <option value="Strategy">Strategy</option>
+            <option value="Shooter">Shooter</option>
+            <option value="Platformer">Platformer</option>
+            <option value="Casual">Casual</option>
+            <option value="Simulation">Simulation</option>
+            <option value="Puzzle">Puzzle</option>
+            <option value="Arcade">Arcade</option>
+            <option value="Racing">Racing</option>
+            <option value="Massively Multiplayer">Massively Multyplayer</option>
+            <option value="Sports">Sports</option>
+            <option value="Fighting">Fighting</option>
+            <option value="Family">Family</option>
+            <option value="Board Games">Board Games</option>
+            <option value="Educational">Educational</option>
+            <option value="Card">Card</option>
+          </select>
+          <select onChange={handleFilterCreation} className={selectMenus}>
+            <option value="All">Todos</option>
+            <option value="Api">Existente</option>
+            <option value="Db">Creado</option>
+          </select>
+        </div>
+        <Pages
+          videogames={videogames.length}
+          gamesXpage={gamesXpage}
+          handlePage={handlePages}
+        />
       </div>
-      <button className={botones} onClick={handleClick}>
-        Volver a cargar los videojuegos
-      </button>
-      <br />
-      <input
-        type="text"
-        placeholder="Search"
-        value={input}
-        onChange={handleChange}
-        name="search"
-        className={searchInput}
-      />
-      <input
-        type="submit"
-        onClick={handleSubmit}
-        value="Search"
-        className={botones}
-      />
-      <div>
-        <select onChange={handleSortByName} className={selectMenus}>
-          <option value="asc">Orden Ascendente Por Nombre</option>
-          <option value="desc">Orden Descendente Por Nombre</option>
-        </select>
-        <select onChange={handleSortByRating} className={selectMenus}>
-          <option value="asc">Orden Ascendente Por Rating</option>
-          <option value="desc">Orden Descendente Por Rating</option>
-        </select>
-        <select onChange={handleFilterGenre} className={selectMenus}>
-          <option value="All">Todos</option>
-          <option value="Action">Action</option>
-          <option value="Indie">Indie</option>
-          <option value="Adventure">Adventure</option>
-          <option value="RPG">RPG</option>
-          <option value="Strategy">Strategy</option>
-          <option value="Shooter">Shooter</option>
-          <option value="Platformer">Platformer</option>
-          <option value="Casual">Casual</option>
-          <option value="Simulation">Simulation</option>
-          <option value="Puzzle">Puzzle</option>
-          <option value="Arcade">Arcade</option>
-          <option value="Racing">Racing</option>
-          <option value="Massively Multiplayer">Massively Multyplayer</option>
-          <option value="Sports">Sports</option>
-          <option value="Fighting">Fighting</option>
-          <option value="Family">Family</option>
-          <option value="Board Games">Board Games</option>
-          <option value="Educational">Educational</option>
-          <option value="Card">Card</option>
-        </select>
-        <select onChange={handleFilterCreation} className={selectMenus}>
-          <option value="All">Todos</option>
-          <option value="Api">Existente</option>
-          <option value="Db">Creado</option>
-        </select>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {currentGames &&
+          currentGames.map((game) => {
+            return (
+              <div className={games}>
+                <Link to={`/home/${game.id}`}>
+                  <Card
+                    key={game.id}
+                    name={game.name}
+                    img={game.img}
+                    genres={game.genres}
+                  />
+                </Link>
+              </div>
+            );
+          })}
       </div>
-      <Pages
-        videogames={videogames.length}
-        gamesXpage={gamesXpage}
-        handlePage={handlePages}
-      />
-      {currentGames &&
-        currentGames.map((game) => {
-          return (
-            <div className={games}>
-              <Link to={`/home/${game.id}`}>
-                <Card
-                  key={game.id}
-                  name={game.name}
-                  img={game.img}
-                  genres={game.genres}
-                />
-              </Link>
-            </div>
-          );
-        })}
     </div>
   );
 }
