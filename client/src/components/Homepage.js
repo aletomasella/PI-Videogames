@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   filterGamesByCreation,
   filterGamesByGenre,
@@ -7,10 +7,11 @@ import {
   getVideogamesByName,
   orderByName,
   orderByRating,
-} from "../action";
-import Card from "./Card";
-import Pages from "./Pages";
-import { Link } from "react-router-dom";
+} from '../action';
+import Card from './Card';
+import Game from './Game';
+import Pages from './Pages';
+import { Link } from 'react-router-dom';
 import {
   botones,
   conteiner,
@@ -20,13 +21,13 @@ import {
   titulo,
   linkForm,
   conteinerButtons,
-} from "./Homepage.module.css";
+} from './Homepage.module.css';
 
 function Homepage() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [page, setPage] = useState(1);
   const [gamesXpage] = useState(15);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState('');
   const indexOfLastGame = page * gamesXpage;
   const indexOfFirstGame = indexOfLastGame - gamesXpage;
 
@@ -79,7 +80,7 @@ function Homepage() {
       <div className={conteinerButtons}>
         <h2 className={titulo}>HOMEPAGE</h2>
         <div>
-          <Link to="/home/form" className={linkForm}>
+          <Link to='/home/form' className={linkForm}>
             Formulario De Creacion
           </Link>
         </div>
@@ -88,54 +89,54 @@ function Homepage() {
         </button>
         <br />
         <input
-          type="text"
-          placeholder="Search"
+          type='text'
+          placeholder='Search'
           value={input}
           onChange={handleChange}
-          name="search"
+          name='search'
           className={searchInput}
         />
         <input
-          type="submit"
+          type='submit'
           onClick={handleSubmit}
-          value="Search"
+          value='Search'
           className={botones}
         />
         <div>
           <select onChange={handleSortByName} className={selectMenus}>
-            <option value="asc">Orden Ascendente Por Nombre</option>
-            <option value="desc">Orden Descendente Por Nombre</option>
+            <option value='asc'>Orden Ascendente Por Nombre</option>
+            <option value='desc'>Orden Descendente Por Nombre</option>
           </select>
           <select onChange={handleSortByRating} className={selectMenus}>
-            <option value="asc">Orden Ascendente Por Rating</option>
-            <option value="desc">Orden Descendente Por Rating</option>
+            <option value='asc'>Orden Ascendente Por Rating</option>
+            <option value='desc'>Orden Descendente Por Rating</option>
           </select>
           <select onChange={handleFilterGenre} className={selectMenus}>
-            <option value="All">Todos</option>
-            <option value="Action">Action</option>
-            <option value="Indie">Indie</option>
-            <option value="Adventure">Adventure</option>
-            <option value="RPG">RPG</option>
-            <option value="Strategy">Strategy</option>
-            <option value="Shooter">Shooter</option>
-            <option value="Platformer">Platformer</option>
-            <option value="Casual">Casual</option>
-            <option value="Simulation">Simulation</option>
-            <option value="Puzzle">Puzzle</option>
-            <option value="Arcade">Arcade</option>
-            <option value="Racing">Racing</option>
-            <option value="Massively Multiplayer">Massively Multyplayer</option>
-            <option value="Sports">Sports</option>
-            <option value="Fighting">Fighting</option>
-            <option value="Family">Family</option>
-            <option value="Board Games">Board Games</option>
-            <option value="Educational">Educational</option>
-            <option value="Card">Card</option>
+            <option value='All'>Todos</option>
+            <option value='Action'>Action</option>
+            <option value='Indie'>Indie</option>
+            <option value='Adventure'>Adventure</option>
+            <option value='RPG'>RPG</option>
+            <option value='Strategy'>Strategy</option>
+            <option value='Shooter'>Shooter</option>
+            <option value='Platformer'>Platformer</option>
+            <option value='Casual'>Casual</option>
+            <option value='Simulation'>Simulation</option>
+            <option value='Puzzle'>Puzzle</option>
+            <option value='Arcade'>Arcade</option>
+            <option value='Racing'>Racing</option>
+            <option value='Massively Multiplayer'>Massively Multyplayer</option>
+            <option value='Sports'>Sports</option>
+            <option value='Fighting'>Fighting</option>
+            <option value='Family'>Family</option>
+            <option value='Board Games'>Board Games</option>
+            <option value='Educational'>Educational</option>
+            <option value='Card'>Card</option>
           </select>
           <select onChange={handleFilterCreation} className={selectMenus}>
-            <option value="All">Todos</option>
-            <option value="Api">Existente</option>
-            <option value="Db">Creado</option>
+            <option value='All'>Todos</option>
+            <option value='Api'>Existente</option>
+            <option value='Db'>Creado</option>
           </select>
         </div>
         <Pages
@@ -146,10 +147,10 @@ function Homepage() {
       </div>
       <div
         style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         {currentGames &&
@@ -157,11 +158,8 @@ function Homepage() {
             return (
               <div className={games}>
                 <Link to={`/home/${game.id}`}>
-                  <Card
-                    key={game.id}
-                    name={game.name}
-                    img={game.img}
-                    genres={game.genres}
+                  <Game
+                    values={{ name: game.name, background_image: game.img }}
                   />
                 </Link>
               </div>
