@@ -5,9 +5,9 @@ import noimage from '../img/noimage.jpg';
 
 function Game({ values }) {
   const theme = themes;
-  console.log(theme);
 
   const { name, background_image } = values;
+  console.log(name, background_image);
 
   return (
     <GameStyled theme={theme}>

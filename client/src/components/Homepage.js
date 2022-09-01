@@ -154,17 +154,9 @@ function Homepage() {
         }}
       >
         {currentGames &&
-          currentGames.map((game) => {
-            return (
-              <div className={games}>
-                <Link to={`/home/${game.id}`}>
-                  <Game
-                    values={{ name: game.name, background_image: game.img }}
-                  />
-                </Link>
-              </div>
-            );
-          })}
+          currentGames.map((game) => (
+            <Game values={{ name: game.name, background_image: game.img }} />
+          ))}
       </div>
     </div>
   );
