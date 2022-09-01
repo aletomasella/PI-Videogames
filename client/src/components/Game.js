@@ -7,16 +7,14 @@ function Game({ values }) {
   const theme = themes;
 
   const { name, background_image } = values;
-  console.log(name, background_image);
 
   return (
     <GameStyled theme={theme}>
       <div className='image'>
-        <image
-          alt='Game Picture'
+        <img
+          alt={`${name}`}
           layout={'fill'}
           objectFit={'cover'}
-          priority
           src={!background_image ? noimage : background_image}
           style={{
             borderRadius: theme.borderRadiusSm,
