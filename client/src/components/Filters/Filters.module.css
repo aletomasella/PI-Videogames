@@ -1,0 +1,59 @@
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdownContent {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #1f1f1f;
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  z-index: 2;
+  width: max-content;
+  max-width: 80vw;
+}
+
+/* Links inside the dropdown */
+.dropdownContent span {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  width: fit-content;
+}
+
+/* Change color of dropdown links on hover */
+.dropdownContent span:hover {
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdownContent {
+  display: flex;
+}
+
+.categoriesContainer {
+  display: flex;
+  flex-direction: column;
+  max-height: 20rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.categories {
+  padding: 12px 16px;
+  margin: 0;
+  font-weight: 300;
+  color: #00c896;
+  font-size: 1.1rem;
+}
+
+.active {
+  border-radius: 4px;
+  color: #bb86fc;
+}

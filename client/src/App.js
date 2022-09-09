@@ -1,18 +1,13 @@
-import Homepage from "./components/Homepage";
-import LandingPage from "./components/LandingPage";
-import { Routes, Route } from "react-router-dom";
-import Details from "./components/Details";
-import CreateGame from "./components/CreateGame";
+import './App.css';
+import Landing from "./Pages/Landing/Landing"
+import Main from './Pages/Main/Main';
+import { Route } from "react-router-dom"
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route exact path="/" element={<LandingPage />} />
-        <Route exact path="/home" element={<Homepage />} />
-        <Route exact path="/home/:id" element={<Details />} />
-        <Route exact path="/home/form" element={<CreateGame />} />
-      </Routes>
+      <Route path="/" component={Landing} exact />
+      <Route path="/main" component={Main} />
     </>
   );
 }
