@@ -52,26 +52,22 @@ export default function CreateGame() {
     if (event.target.className === "") {
       event.target.className = styles.active;
       if (id.includes("genre")) {
-        setGameGenre([...gameGenre, parseInt(id.slice(6))]);
+        setGameGenre([...gameGenre, innerText]);
         setGenreAlert("");
       }
       if (id.includes("platform")) {
-        setGamePlatform([...gamePlatform, parseInt(id.slice(9))]);
+        setGamePlatform([...gamePlatform, innerText]);
         setPlatformAlert("");
       }
     } else if (event.target.className === styles.active) {
       event.target.className = "";
       id.includes("genre") &&
-        setGameGenre(
-          gameGenre.filter((genre) => genre !== parseInt(id.slice(6)))
-        );
+        setGameGenre(gameGenre.filter((genre) => genre !== innerText));
       id.includes("platform") &&
         setGamePlatform(
-          gamePlatform.filter((platform) => platform !== parseInt(id.slice(9)))
+          gamePlatform.filter((platform) => platform !== innerText)
         );
     }
-
-    console.log(innerText);
   };
 
   const handleSubmit = (event) => {
@@ -102,24 +98,23 @@ export default function CreateGame() {
     }
 
     if (verified) {
-      console.log(gameImage);
-      axios
-        .post(`${URL}/videogame`, {
-          name: gameName,
-          description: gameDescription,
-          // image: gameImage,
-          genres: gameGenre,
-          platforms: gamePlatform,
-          rating: gameRating,
-        })
-        .then(
-          (res) => {
-            console.log(res);
-            dispatch(getAllGames());
-            history.push("/main");
-          },
-          (err) => console.log(err)
-        );
+      const newGame = {
+        name: gameName,
+        description: gameDescription,
+        // image: gameImage,
+        genres: gameGenre,
+        platforms: gamePlatform.join(" "),
+        rating: gameRating,
+      };
+      console.log(newGame);
+      axios.post(`${URL}/videogame`, newGame).then(
+        (res) => {
+          console.log(res);
+          dispatch(getAllGames());
+          history.push("/main");
+        },
+        (err) => console.log(err)
+      );
     }
   };
 
@@ -173,61 +168,65 @@ export default function CreateGame() {
             <div className={styles.dropdownContent}>
               <div className={styles.categoriesContainer}>
                 <p className={styles.categories}>Genres</p>
-                <span onClick={handleLists} id="genre-4">
+                <span onClick={handleLists} id="genre-4" name="Action">
                   Action
                 </span>
-                <span onClick={handleLists} id="genre-3">
+                <span onClick={handleLists} id="genre-3" name="Adventure">
                   Adventure
                 </span>
-                <span onClick={handleLists} id="genre-11">
+                <span onClick={handleLists} id="genre-11" name="Arcade">
                   Arcade
                 </span>
-                <span onClick={handleLists} id="genre-28">
+                <span onClick={handleLists} id="genre-28" name="Board Games">
                   Board Games
                 </span>
-                <span onClick={handleLists} id="genre-17">
+                <span onClick={handleLists} id="genre-17" name="Card">
                   Card
                 </span>
-                <span onClick={handleLists} id="genre-40">
+                <span onClick={handleLists} id="genre-40" name="Casual">
                   Casual
                 </span>
-                <span onClick={handleLists} id="genre-34">
+                <span onClick={handleLists} id="genre-34" name="Educational">
                   Educational
                 </span>
-                <span onClick={handleLists} id="genre-19">
+                <span onClick={handleLists} id="genre-19" name="Family">
                   Family
                 </span>
-                <span onClick={handleLists} id="genre-6">
+                <span onClick={handleLists} id="genre-6" name="Fighting">
                   Fighting
                 </span>
-                <span onClick={handleLists} id="genre-51">
+                <span onClick={handleLists} id="genre-51" name="Indie">
                   Indie
                 </span>
-                <span onClick={handleLists} id="genre-59">
+                <span
+                  onClick={handleLists}
+                  id="genre-59"
+                  name="Massively Multiplayer"
+                >
                   Massively Multiplayer
                 </span>
-                <span onClick={handleLists} id="genre-83">
+                <span onClick={handleLists} id="genre-83" name="Platformer">
                   Platformer
                 </span>
-                <span onClick={handleLists} id="genre-7">
+                <span onClick={handleLists} id="genre-7" name="Puzzle">
                   Puzzle
                 </span>
-                <span onClick={handleLists} id="genre-5">
+                <span onClick={handleLists} id="genre-5" name="RPG">
                   RPG
                 </span>
-                <span onClick={handleLists} id="genre-1">
+                <span onClick={handleLists} id="genre-1" name="Racing">
                   Racing
                 </span>
-                <span onClick={handleLists} id="genre-2">
+                <span onClick={handleLists} id="genre-2" name="Shooter">
                   Shooter
                 </span>
-                <span onClick={handleLists} id="genre-15">
+                <span onClick={handleLists} id="genre-15" name="Sports">
                   Sports
                 </span>
-                <span onClick={handleLists} id="genre-14">
+                <span onClick={handleLists} id="genre-14" name="Simulation">
                   Simulation
                 </span>
-                <span onClick={handleLists} id="genre-10">
+                <span onClick={handleLists} id="genre-10" name="Strategy">
                   Strategy
                 </span>
               </div>
@@ -239,88 +238,120 @@ export default function CreateGame() {
             <div className={styles.dropdownContent}>
               <div className={styles.categoriesContainer}>
                 <p className={styles.categories}>Platforms</p>
-                <span onClick={handleLists} id="platform-21">
+                <span onClick={handleLists} id="platform-21" name="Android">
                   Android
                 </span>
-                <span onClick={handleLists} id="platform-26">
+                <span onClick={handleLists} id="platform-26" name="Game Boy">
                   Game Boy
                 </span>
-                <span onClick={handleLists} id="platform-24">
+                <span
+                  onClick={handleLists}
+                  id="platform-24"
+                  name="Game Boy Advance"
+                >
                   Game Boy Advance
                 </span>
-                <span onClick={handleLists} id="platform-43">
+                <span
+                  onClick={handleLists}
+                  id="platform-43"
+                  name="Game Boy Color"
+                >
                   Game Boy Color
                 </span>
-                <span onClick={handleLists} id="platform-105">
+                <span onClick={handleLists} id="platform-105" name="GameCube">
                   GameCube
                 </span>
-                <span onClick={handleLists} id="platform-3">
+                <span onClick={handleLists} id="platform-3" name="iOS">
                   iOS
                 </span>
-                <span onClick={handleLists} id="platform-6">
+                <span onClick={handleLists} id="platform-6" name="Linux">
                   Linux
                 </span>
-                <span onClick={handleLists} id="platform-5">
+                <span onClick={handleLists} id="platform-5" name="macOS">
                   macOS
                 </span>
-                <span onClick={handleLists} id="platform-49">
+                <span onClick={handleLists} id="platform-49" name="NES">
                   NES
                 </span>
-                <span onClick={handleLists} id="platform-8">
+                <span onClick={handleLists} id="platform-8" name="Nintento 3Ds">
                   Nintendo 3Ds
                 </span>
-                <span onClick={handleLists} id="platform-83">
+                <span onClick={handleLists} id="platform-83" name="Nintento 64">
                   Nintendo 64
                 </span>
-                <span onClick={handleLists} id="platform-9">
+                <span onClick={handleLists} id="platform-9" name="Nintento DS">
                   Nintendo DS
                 </span>
-                <span onClick={handleLists} id="platform-13">
+                <span
+                  onClick={handleLists}
+                  id="platform-13"
+                  name="Nintento DSi"
+                >
                   Nintendo DSi
                 </span>
-                <span onClick={handleLists} id="platform-4">
+                <span onClick={handleLists} id="platform-4" name="PC">
                   PC
                 </span>
-                <span onClick={handleLists} id="platform-19">
+                <span onClick={handleLists} id="platform-19" name="PS Vita">
                   PS Vita
                 </span>
-                <span onClick={handleLists} id="platform-17">
+                <span onClick={handleLists} id="platform-17" name="PSP">
                   PSP
                 </span>
-                <span onClick={handleLists} id="platform-27">
+                <span onClick={handleLists} id="platform-27" name="PlayStation">
                   PlayStation
                 </span>
-                <span onClick={handleLists} id="platform-15">
+                <span
+                  onClick={handleLists}
+                  id="platform-15"
+                  name="PlayStation 2"
+                >
                   PlayStation 2
                 </span>
-                <span onClick={handleLists} id="platform-16">
+                <span
+                  onClick={handleLists}
+                  id="platform-16"
+                  name="PlayStation 3"
+                >
                   PlayStation 3
                 </span>
-                <span onClick={handleLists} id="platform-18">
+                <span
+                  onClick={handleLists}
+                  id="platform-18"
+                  name="PlayStation 4"
+                >
                   PlayStation 4
                 </span>
-                <span onClick={handleLists} id="platform-187">
+                <span
+                  onClick={handleLists}
+                  id="platform-187"
+                  name="PlayStation 5"
+                >
                   PlayStation 5
                 </span>
-                <span onClick={handleLists} id="platform-79">
+                <span onClick={handleLists} id="platform-79" name="SNES">
                   SNES
                 </span>
-                <span onClick={handleLists} id="platform-11">
+                <span onClick={handleLists} id="platform-11" name="Wii">
                   Wii
                 </span>
-                <span onClick={handleLists} id="platform-10">
+                <span onClick={handleLists} id="platform-10" name="Wii U">
                   Wii U
                 </span>
-                <span onClick={handleLists} id="platform-80">
+                <span onClick={handleLists} id="platform-80" name="Xbox">
                   Xbox
                 </span>
-                <span onClick={handleLists} id="platform-14">
+                <span onClick={handleLists} id="platform-14" name="Xbox 360">
                   Xbox 360
                 </span>
-                <span onClick={handleLists} id="platform-1">
+                <span onClick={handleLists} id="platform-1" name="Xbox One">
                   Xbox One
                 </span>
-                <span onClick={handleLists} id="platform-186">
+                <span
+                  onClick={handleLists}
+                  id="platform-186"
+                  name="Xbox Series S/X"
+                >
                   Xbox Series S/X
                 </span>
               </div>
