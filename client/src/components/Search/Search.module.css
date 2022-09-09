@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.input {
+  max-width: 25vw;
+  min-width: 10vw;
+}

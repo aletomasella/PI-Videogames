@@ -1,0 +1,117 @@
+.container {
+  background-color: #121212;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
+
+.logo {
+  width: 20rem;
+  margin: none;
+  opacity: 0;
+  animation: fadeInAnimation ease 3s 1s 1 forwards;
+  max-width: 80vw;
+}
+
+.button {
+  opacity: 0;
+  animation: fadeInAnimation ease 3s 2s 1 forwards;
+}
+
+.line {
+  position: fixed;
+  width: 20vw;
+  height: 20px;
+  transition: 1s;
+  border-radius: 40px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.line:nth-of-type(1) {
+  background-color: #bf392b;
+  top: 0;
+  left: -25%;
+  animation: fade1 ease 3s 0.5s 1 forwards;
+  transform: rotate(-45deg);
+}
+.line:nth-of-type(2) {
+  background-color: #f29b12;
+  top: 0%;
+  right: -25%;
+  animation: fade2 ease 3s 0.5s 1 forwards;
+  transform: rotate(45deg);
+}
+.line:nth-of-type(3) {
+  background-color: #2777ac;
+  bottom: 0%;
+  left: -25%;
+  transform: rotate(45deg);
+  animation: fade3 ease 3s 0.5s 1 forwards;
+}
+.line:nth-of-type(4) {
+  background-color: #249554;
+  bottom: 0%;
+  right: -25%;
+  transform: rotate(-45deg);
+  animation: fade4 ease 3s 0.5s 1 forwards;
+}
+
+.button:hover ~ .line {
+  transition: 1s;
+  width: 30vw;
+  overflow: hidden;
+}
+
+@keyframes fade1 {
+  to {
+    top: 25%;
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fade2 {
+  to {
+    top: 25%;
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fade3 {
+  to {
+    bottom: 25%;
+    left: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fade4 {
+  to {
+    bottom: 25%;
+    right: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInAnimation {
+  100% {
+    opacity: 1;
+  }
+}
+
+.link {
+  color: #03dac6;
+  text-decoration: none;
+}
+
+.goHome {
+  /* animation: spinAndScale 1s linear; */
+  transition: 2s cubic-bezier(0.215, 0.005, 1, 0.46);
+  transform: rotate(2160deg);
+  width: 25rem;
+}
