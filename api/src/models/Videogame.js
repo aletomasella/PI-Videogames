@@ -36,6 +36,12 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: true,
       },
+      img: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue:
+          "https://img.freepik.com/free-vector/cute-astronaut-waving-hand-game-controller-cartoon-vector-icon-illustration-technology-science-icon-concept-isolated-premium-vector-flat-cartoon-style_138676-3714.jpg?w=2000",
+      },
     },
     {
       timestamps: false,

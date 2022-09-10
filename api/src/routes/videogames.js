@@ -95,7 +95,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const { name, description, launchDate, rating, platforms, genres } =
+    const { name, description, launchDate, rating, platforms, genres, img } =
       req.body;
     if (!name || !description || !platforms)
       return res.status(404).send("No se brindaron los datos necesarios.");
@@ -106,6 +106,7 @@ router.post("/", async (req, res) => {
     });
     if (launchDate) newVideogame.launchDate = launchDate;
     if (rating) newVideogame.rating = rating;
+    if (img) newVideogame.img = img;
     await newVideogame.save();
 
     const gameGenres = {

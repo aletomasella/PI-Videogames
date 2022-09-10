@@ -101,7 +101,7 @@ export default function CreateGame() {
       const newGame = {
         name: gameName,
         description: gameDescription,
-        // image: gameImage,
+        img: gameImage,
         genres: gameGenre,
         platforms: gamePlatform.join(" "),
         rating: gameRating,
@@ -143,11 +143,16 @@ export default function CreateGame() {
           ></textarea>
           <label className={styles.alert}>{descriptionAlert}</label>
         </div>
-        {/* <div className={styles.formGroup}>
-                    <label>Image*</label>
-                    <input type="text" placeholder="Image URL" name='gameImage' onChange={handleChange} />
-                    <label className={styles.alert} >{imageAlert}</label>
-                </div> */}
+        <div className={styles.formGroup}>
+          <label>Image*</label>
+          <input
+            type="text"
+            placeholder="Image URL"
+            name="gameImage"
+            onChange={handleChange}
+          />
+          <label className={styles.alert}>{imageAlert}</label>
+        </div>
         <div className={styles.formGroup}>
           <label>Rating</label>
           <input
